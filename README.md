@@ -1,9 +1,6 @@
-# Questie - WARNING: THIS IS A WIP BUILD FOR THE BETA! 
-**A quest helper for World of Warcraft: Classic**
+# Questie - [DEVELOPMENT IS NOW BEING DONE IN MASTER BRANCH!](https://github.com/AeroScripts/QuestieDev) Don't use this!
 
 
-# Put "QuestieDev-master" in your interface folder! Delete any old questie folders you have first!
-*Some features are missing, but its all being ported in slowly. Keep an eye on discord! (linked below)*
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
 
