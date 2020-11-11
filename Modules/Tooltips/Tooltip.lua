@@ -349,7 +349,7 @@ function QuestieTooltips:Initialize()
     --end)
 
     GameTooltip:HookScript("OnTooltipSetDefaultAnchor", function (self)
-        DEFAULT_CHAT_FRAME:AddMessage("OnTooltipSetDefaultAnchor")
+        Questie:Debug(DEBUG_DEVELOP, "[Tooltip] - OnTooltipSetDefaultAnchor")
         --When this is called we know its a new frame, so we reset everything!
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
