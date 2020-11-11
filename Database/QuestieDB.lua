@@ -282,7 +282,7 @@ end
 
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard
----@param id number
+---@param questId number
 ---@return table<number, string>
 function QuestieDB:GetQuestTagInfo(questId)
     local questType, questTag = GetQuestTagInfo(questId)
@@ -295,7 +295,7 @@ function QuestieDB:GetQuestTagInfo(questId)
     return questType, questTag
 end
 
----@param questId
+---@param questId number
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB:IsComplete(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
