@@ -1,0 +1,17 @@
+--MANUAL
+ENABLE_COLORBLIND_MODE = "0"
+LOCALE_enGB = "UNKNOWNVALUE"
+CURRENT_TUTORIAL_QUEST_INFO = "UNKNOWNVALUE"
+FRIEND_TAB_RAID = "UNKNOWNVALUE"
+ITEM_QUALITY_COLORS = {}
+
+Enum = {}
+CurrencyContainerUtil = {}
+Kiosk = {}
+SOUNDKIT = {}
+function nop()
+end
+function message(string)
+
+end
+--ENDMANUAL
