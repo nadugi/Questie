@@ -49,6 +49,12 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
     tooltip.objective = objective
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objective.Index] = tooltip
     table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+
+    --We want to cache gameobjects for future use within tooltips, ugly but improves performance a lot
+    local typ, id = strsplit("_", key);
+    if(typ and id and typ == "o") then
+        _QuestieTooltips:cacheGameObject(tonumber(id))
+    end
 end
 
 ---@param questId number
@@ -70,7 +76,7 @@ end
 
 ---@param questId number
 function QuestieTooltips:RemoveQuest(questId)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:RemoveQuest]", questId)
+    Questie:Debug(DEBUG_SPAM, "[QuestieTooltips:RemoveQuest]", questId)
     if (not QuestieTooltips.lookupKeysByQuestId[questId]) then
         return
     end
@@ -323,22 +329,62 @@ function QuestieTooltips:Initialize()
         end
     end)
 
-    GameTooltip:HookScript("OnUpdate", function(self)
-        if (not self.IsForbidden) or (not self:IsForbidden()) then
-            --Because this is an OnUpdate we need to check that it is actually not a Unit or Item to think its a
-            local uName, unit = self:GetUnit()
-            local iName, link = self:GetItem()
-            if (uName == nil and unit == nil and iName == nil and link == nil) and (
-                QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or
-                (not QuestieTooltips.lastGametooltipCount) or
-                _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
-                or QuestieTooltips.lastGametooltipType ~= "object"
-            ) then
-                _QuestieTooltips:AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
-                QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
-            end
-            QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
+    --GameTooltip:HookScript("OnUpdate", function(self)
+    --    if (not self.IsForbidden) or (not self:IsForbidden()) then
+    --        --Because this is an OnUpdate we need to check that it is actually not a Unit or Item to think its a
+    --        local uName, unit = self:GetUnit()
+    --        local iName, link = self:GetItem()
+    --        if (uName == nil and unit == nil and iName == nil and link == nil) then
+    --            if  (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or
+    --                (not QuestieTooltips.lastGametooltipCount) or
+    --                QuestieTooltips.lastGametooltipType ~= "object" or
+    --                _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
+    --            ) then
+    --                _QuestieTooltips:AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
+    --                QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
+    --            end
+    --        end
+    --        QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
+    --    end
+    --end)
+
+    GameTooltip:HookScript("OnTooltipSetDefaultAnchor", function (self)
+        DEFAULT_CHAT_FRAME:AddMessage("OnTooltipSetDefaultAnchor")
+        --When this is called we know its a new frame, so we reset everything!
+        if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
+            QuestieTooltips.lastGametooltip = ""
+            QuestieTooltips.lastItemRefTooltip = ""
+            QuestieTooltips.lastGametooltipItem = nil
+            QuestieTooltips.lastGametooltipUnit = nil
+            QuestieTooltips.lastGametooltipCount = 0
+            QuestieTooltips.lastFrameName = "";
         end
+        -- A timer is needed here because GetUnit and GetItem only gets populated after this event,
+        -- we use a 0ms timer to execute the code on the next frame.
+        C_Timer.After(0, function ()
+            if (not self.IsForbidden) or (not self:IsForbidden()) then
+                -- We cache the "title" of the tooltip because we don't want to run the code multiple times
+                local tooltipTitle = GameTooltipTextLeft1:GetText()
+
+                local uName, unit = GameTooltip:GetUnit()
+                local iName, link = GameTooltip:GetItem()
+                -- Only execute code if its no a Unit or Item
+                if (uName == nil and unit == nil and iName == nil and link == nil) then
+                    -- We only want to run CountTooltip once, so we save the value
+                    local tooltipCount = _QuestieTooltips:CountTooltip()
+
+                    if  (QuestieTooltips.lastGametooltip ~= tooltipTitle or
+                        (not QuestieTooltips.lastGametooltipCount) or
+                        QuestieTooltips.lastGametooltipType ~= "object" or
+                        tooltipCount < QuestieTooltips.lastGametooltipCount
+                    ) then
+                        _QuestieTooltips:AddObjectDataToTooltip(tooltipTitle)
+                        QuestieTooltips.lastGametooltipCount = tooltipCount
+                    end
+                end
+                QuestieTooltips.lastGametooltip = tooltipTitle
+            end
+        end)
     end)
 end
 

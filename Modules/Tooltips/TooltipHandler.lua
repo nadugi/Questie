@@ -1,5 +1,7 @@
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 local _QuestieTooltips = QuestieTooltips.private
 
 local lastGuid = nil;
@@ -71,15 +73,37 @@ function _QuestieTooltips:AddItemDataToTooltip()
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
+-- A cache for gameobjects to improve lookup time when creating tooltips
+-- NOTE: Multiple objects can have the same name ex. look at "Campfire"
+-- Structure:
+--gameobjectCache = {
+--    ["name1"] = {
+--                    ID,
+--                    ID2,
+--                },
+--    ["name2"] = {
+--                    ...
+--                }
+--}
+local gameobjectCache = {}
+function _QuestieTooltips:cacheGameObject(id)
+    local name = QuestieDB.QueryObjectSingle(id, "name")
+    if(not gameobjectCache[name]) then
+        gameobjectCache[name] = {};
+    end
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] caching gameobject : ", name, ":", id);
+    table.insert(gameobjectCache[name], id);
+end
+
 function _QuestieTooltips:AddObjectDataToTooltip(name)
     if (not Questie.db.global.enableTooltips) then
         return
     end
     if name then
-        for index, gameObjectId in pairs(LangObjectNameLookup[name] or {}) do
+        for index, gameObjectId in pairs(gameobjectCache[name] or {}) do --or LangObjectNameLookup[name]
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
             if type(gameObjectId) == "number" and tooltipData then
-                --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
+                Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
                 if tooltipData then
                     for _, v in pairs (tooltipData) do
                         GameTooltip:AddLine(v)
@@ -93,10 +117,20 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
     QuestieTooltips.lastGametooltipType = "object";
 end
 
+--We cache the gametooltip frames to not have to use the global lookup each time.
+local gameTooltipFrames = {}
+do
+    for i = 1, 25 do -- Should probably use GameTooltip:NumLines() instead.
+        local frame = _G["GameTooltipTextLeft"..i]
+        table.insert(gameTooltipFrames, frame);
+    end
+end
+
 function _QuestieTooltips:CountTooltip()
     local tooltipcount = 0
     for i = 1, 25 do -- Should probably use GameTooltip:NumLines() instead.
-        local frame = _G["GameTooltipTextLeft"..i]
+        local frame = gameTooltipFrames[i]
+        --local frame = _G["GameTooltipTextLeft"..i]
         if frame and frame:GetText() then
             tooltipcount = tooltipcount + 1
         else
