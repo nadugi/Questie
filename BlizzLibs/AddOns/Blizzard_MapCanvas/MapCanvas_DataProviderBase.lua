@@ -1,4 +1,5 @@
 -- Provides a basic interface for something that manages the adding, updating, and removing of data like icons, blobs or text to the map canvas
+---@class MapCanvasDataProviderMixin
 MapCanvasDataProviderMixin = {};
 
 function MapCanvasDataProviderMixin:OnAdded(owningMap)
@@ -101,6 +102,7 @@ function MapCanvasDataProviderMixin:SignalEvent(event, ...)
 end
 
 -- Provides a basic interface for something that is visible on the map canvas, like icons, blobs or text
+---@class MapCanvasPinMixin
 MapCanvasPinMixin = {};
 
 function MapCanvasPinMixin:OnLoad()

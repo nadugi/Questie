@@ -71,6 +71,7 @@ function DrawLine(texture, canvasFrame, startX, startY, endX, endY, lineWidth, l
 end
 
 -- Mix this into a Texture to be able to treat it like a line
+---@class LineMixin
 LineMixin = {};
 
 function LineMixin:SetStartPoint(x, y)
@@ -94,6 +95,7 @@ function LineMixin:Draw()
 end
 
 -- Mix this into a FontString to have it animate towards its value, call UpdateAnimatedValue every frame
+---@class AnimatedNumericFontStringMixin
 AnimatedNumericFontStringMixin = {};
 
 -- How long should it take to animate
@@ -137,6 +139,7 @@ function AnimatedNumericFontStringMixin:UpdateAnimatedValue(elapsed)
 	end
 end
 
+---@class SparseGridMixin
 SparseGridMixin = {};
 
 function SparseGridMixin:OnLoad(width, height)
@@ -176,6 +179,7 @@ function SparseGridMixin:CalculateLinearIndex(x, y)
 end
 
 -- Mix this in to make an object a doublyLinkedList
+---@class DoublyLinkedListMixin
 DoublyLinkedListMixin = {nodeCount = 0};
 
 function DoublyLinkedListMixin:PushFront(nodeToInsert)
@@ -299,14 +303,16 @@ function DoublyLinkedListMixin:Remove(node)
 	return node;
 end
 
+---@class TextureLoadingGroupMixin
 TextureLoadingGroupMixin = {};
 
 function TextureLoadingGroupMixin:AddTexture(texture)
 	self.textures = self.textures or {};
 	self.textures[texture] = true;
 end
---Note! I added the texture parameter... should it be here? (Logon)
-function TextureLoadingGroupMixin:RemoveTexture(texture)
+
+function TextureLoadingGroupMixin:RemoveTexture()
+	local texture --Note! I added the texture parameter... should it be here? (Logon)
 	if self.textures then
 		self.textures[texture] = nil;
 	end

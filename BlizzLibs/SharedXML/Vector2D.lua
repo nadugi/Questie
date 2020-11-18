@@ -50,10 +50,14 @@ function Vector2D_RotateDirection(rotationRadians, x, y)
 	return x * cosValue - y * sinValue, x * sinValue + y * cosValue;
 end
 
+---@class Vector2D
 Vector2DMixin = {};
 
+---@param x number
+---@param y number
+---@return Vector2D
 function CreateVector2D(x, y)
-	local vector = CreateFromMixins(Vector2DMixin);
+	local vector = Vector2DMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	vector:OnLoad(x, y);
 	return vector;
 end

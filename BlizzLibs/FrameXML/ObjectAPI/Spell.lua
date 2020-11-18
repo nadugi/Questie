@@ -1,10 +1,12 @@
+---@class Spell
 Spell = {};
+---@class SpellMixin
 SpellMixin = {};
 
 local SpellEventListener;
 
 --[[static]] function Spell:CreateFromSpellID(spellID)
-	local spell = CreateFromMixins(SpellMixin);
+	local spell = SpellMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	spell:SetSpellID(spellID);
 	return spell;
 end

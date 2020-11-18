@@ -1,4 +1,6 @@
+---@class Item
 Item = {};
+---@class ItemMixin
 ItemMixin = {};
 
 local ItemEventListener;
@@ -7,7 +9,7 @@ local ItemEventListener;
 	if type(itemLocation) ~= "table" or type(itemLocation.HasAnyLocation) ~= "function" or not itemLocation:HasAnyLocation() then
 		error("Usage: Item:CreateFromItemLocation(notEmptyItemLocation)", 2);
 	end
-	local item = CreateFromMixins(ItemMixin);
+	local item = ItemMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	item:SetItemLocation(itemLocation);
 	return item;
 end
@@ -16,7 +18,7 @@ end
 	if type(bagID) ~= "number" or type(slotIndex) ~= "number" then
 		error("Usage: Item:CreateFromBagAndSlot(bagID, slotIndex)", 2);
 	end
-	local item = CreateFromMixins(ItemMixin);
+	local item = ItemMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	item:SetItemLocation(ItemLocation:CreateFromBagAndSlot(bagID, slotIndex));
 	return item;
 end
@@ -25,7 +27,7 @@ end
 	if type(equipmentSlotIndex) ~= "number" then
 		error("Usage: Item:CreateFromEquipmentSlot(equipmentSlotIndex)", 2);
 	end
-	local item = CreateFromMixins(ItemMixin);
+	local item = ItemMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	item:SetItemLocation(ItemLocation:CreateFromEquipmentSlot(equipmentSlotIndex));
 	return item;
 end
@@ -34,7 +36,7 @@ end
 	if type(itemLink) ~= "string" then
 		error("Usage: Item:CreateFromItemLink(itemLinkString)", 2);
 	end
-	local item = CreateFromMixins(ItemMixin);
+	local item = ItemMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	item:SetItemLink(itemLink);
 	return item;
 end
@@ -43,7 +45,7 @@ end
 	if type(itemID) ~= "number" then
 		error("Usage: Item:CreateFromItemID(itemID)", 2);
 	end
-	local item = CreateFromMixins(ItemMixin);
+	local item = ItemMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	item:SetItemID(itemID);
 	return item;
 end

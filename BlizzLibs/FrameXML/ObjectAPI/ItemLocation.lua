@@ -1,8 +1,10 @@
+---@class ItemLocation
 ItemLocation = {};
+---@class ItemLocationMixin
 ItemLocationMixin = {};
 
 --[[static]] function ItemLocation:CreateEmpty()
-	local itemLocation = CreateFromMixins(ItemLocationMixin);
+	local itemLocation = ItemLocationMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	return itemLocation;
 end
 

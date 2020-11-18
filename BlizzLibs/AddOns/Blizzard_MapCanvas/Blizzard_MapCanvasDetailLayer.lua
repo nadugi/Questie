@@ -1,9 +1,9 @@
-
+---@class MapCanvasDetailLayerMixin
 MapCanvasDetailLayerMixin = {};
 
 function MapCanvasDetailLayerMixin:OnLoad()
 	self.detailTilePool = CreateTexturePool(self, "BACKGROUND", -7, "MapCanvasDetailTileTemplate");
-	self.textureLoadGroup = CreateFromMixins(TextureLoadingGroupMixin);
+	self.textureLoadGroup = TextureLoadingGroupMixin -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 end
 
 function MapCanvasDetailLayerMixin:SetMapAndLayer(mapID, layerIndex)

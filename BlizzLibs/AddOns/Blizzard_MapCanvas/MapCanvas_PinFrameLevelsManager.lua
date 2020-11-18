@@ -1,3 +1,4 @@
+---@class MapCanvasPinFrameLevelsManagerMixin
 MapCanvasPinFrameLevelsManagerMixin = {};
 
 local MAP_CANVAS_PIN_FRAME_LEVEL_DEFAULT = 2000;

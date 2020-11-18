@@ -1,44 +1,46 @@
+---@class PlayerLocation
 PlayerLocation = {};
+---@class PlayerLocationMixin
 PlayerLocationMixin = {};
 
 --[[static]] function PlayerLocation:CreateFromGUID(guid)
-	local playerLocation = CreateFromMixins(PlayerLocationMixin);
+	local playerLocation = PlayerLocationMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	playerLocation:SetGUID(guid);
 	return playerLocation;
 end
 
 --[[static]] function PlayerLocation:CreateFromUnit(unit)
-	local playerLocation = CreateFromMixins(PlayerLocationMixin);
+	local playerLocation = PlayerLocationMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	playerLocation:SetUnit(unit);
 	return playerLocation;
 end
 
 --[[static]] function PlayerLocation:CreateFromChatLineID(lineID)
-	local playerLocation = CreateFromMixins(PlayerLocationMixin);
+	local playerLocation = PlayerLocationMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	playerLocation:SetChatLineID(lineID);
 	return playerLocation;
 end
 
 --[[static]] function PlayerLocation:CreateFromCommunityChatData(clubID, streamID, epoch, position)
-	local playerLocation = CreateFromMixins(PlayerLocationMixin);
+	local playerLocation = PlayerLocationMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	playerLocation:SetCommunityData(clubID, streamID, epoch, position);
 	return playerLocation;
 end
 
 --[[static]] function PlayerLocation:CreateFromCommunityInvitation(clubID, guid)
-	local playerLocation = CreateFromMixins(PlayerLocationMixin);
+	local playerLocation = PlayerLocationMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	playerLocation:SetCommunityInvitation(clubID, guid);
 	return playerLocation;
 end
 
 --[[static]] function PlayerLocation:CreateFromBattlefieldScoreIndex(battlefieldScoreIndex)
-	local playerLocation = CreateFromMixins(PlayerLocationMixin);
+	local playerLocation = PlayerLocationMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	playerLocation:SetBattlefieldScoreIndex(battlefieldScoreIndex);
 	return playerLocation;
 end
 
 --[[static]] function PlayerLocation:CreateFromVoiceID(memberID, channelID)
-	local playerLocation = CreateFromMixins(PlayerLocationMixin);
+	local playerLocation = PlayerLocationMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	playerLocation:SetVoiceID(memberID, channelID);
 	return playerLocation;
 end

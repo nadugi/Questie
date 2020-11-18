@@ -259,7 +259,7 @@ function CreateFromMixins(...)
 end
 
 function CreateAndInitFromMixin(mixin, ...)
-	local object = CreateFromMixins(mixin);
+	local object = mixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	object:Init(...);
 	return object;
 end
@@ -405,10 +405,11 @@ function TriStateCheckbox_SetState(checked, checkButton)
 	end
 end
 
+---@class RectangleMixin
 RectangleMixin = {};
 
 function CreateRectangle(left, right, top, bottom)
-	local rectangle = CreateFromMixins(RectangleMixin);
+	local rectangle = RectangleMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	rectangle:OnLoad(left, right, top,  bottom);
 	return rectangle;
 end
@@ -566,7 +567,7 @@ local function ProcessSmoothStatusBars()
 end
 
 C_Timer.NewTicker(0, ProcessSmoothStatusBars);
-
+---@class SmoothStatusBarMixin
 SmoothStatusBarMixin = {};
 
 function SmoothStatusBarMixin:ResetSmoothedValue(value) --If nil, tries to set to the last target value
@@ -603,11 +604,11 @@ end
 function WrapTextInColorCode(text, colorHexString)
 	return ("|c%s%s|r"):format(colorHexString, text);
 end
-
+---@class ColorMixin
 ColorMixin = {};
 
 function CreateColor(r, g, b, a)
-	local color = CreateFromMixins(ColorMixin);
+	local color = ColorMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	color:OnLoad(r, g, b, a);
 	return color;
 end
@@ -708,6 +709,7 @@ function GetFactionColor(factionGroupTag)
 end
 
 -- Mix this into a FontString to have it resize until it stops truncating, or gets too small
+---@class ShrinkUntilTruncateFontStringMixin
 ShrinkUntilTruncateFontStringMixin = {};
 
 -- From largest to smallest
@@ -984,6 +986,7 @@ function SetupTextureKitsFromRegionInfoByID(textureKitID, frame, regionInfoList)
 	SetupTextureKitsFromRegionInfo(textureKit, frame, regionInfoList);
 end
 
+---@class CallbackRegistryBaseMixin
 CallbackRegistryBaseMixin = {};
 
 function CallbackRegistryBaseMixin:OnLoad()
@@ -1079,7 +1082,7 @@ function TabGroupMixin:OnTabPressed()
 end
 
 function CreateTabGroup(...)
-	local tabGroup = CreateFromMixins(TabGroupMixin);
+	local tabGroup = TabGroupMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	tabGroup:OnLoad(...);
 	return tabGroup;
 end
@@ -1109,6 +1112,7 @@ function Flags_CreateMaskFromTable(flagsTable)
 	return mask;
 end
 
+---@class FlagsMixin
 FlagsMixin = {};
 
 function FlagsMixin:OnLoad()
@@ -1157,7 +1161,7 @@ function FlagsMixin:GetFlags()
 	return self.flags;
 end
 
-DirtyFlagsMixin = CreateFromMixins(FlagsMixin);
+DirtyFlagsMixin = FlagsMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 
 function DirtyFlagsMixin:OnLoad()
 	FlagsMixin.OnLoad(self);
@@ -1263,7 +1267,7 @@ function TabGroupMixin:OnTabPressed(preventFocusWrap)
 end
 
 function CreateTabGroup(...)
-	local tabGroup = CreateFromMixins(TabGroupMixin);
+	local tabGroup = TabGroupMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	tabGroup:OnLoad(...);
 	return tabGroup;
 end
@@ -1297,7 +1301,7 @@ function PredictedSettingBaseMixin:Get()
 	return self.wrapTable.getFunction();
 end
 
-PredictedSettingMixin = CreateFromMixins(PredictedSettingBaseMixin);
+PredictedSettingMixin = PredictedSettingBaseMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 
 function PredictedSettingMixin:Set(value)
 	local validated = self.wrapTable.setFunction(value);
@@ -1307,12 +1311,12 @@ function PredictedSettingMixin:Set(value)
 end
 
 function CreatePredictedSetting(wrapTable)
-	local predictedSetting = CreateFromMixins(PredictedSettingMixin);
+	local predictedSetting = PredictedSettingMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	predictedSetting:SetUp(wrapTable);
 	return predictedSetting;
 end
 
-PredictedToggleMixin = CreateFromMixins(PredictedSettingBaseMixin)
+PredictedToggleMixin = PredictedSettingBaseMixin -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 
 function PredictedToggleMixin:SetUp(wrapTable)
 	PredictedSettingBaseMixin.SetUp(self, wrapTable);
@@ -1329,7 +1333,7 @@ function PredictedToggleMixin:UpdateCurrentValue()
 end
 
 function CreatePredictedToggle(wrapTable)
-	local predictedToggle = CreateFromMixins(PredictedToggleMixin);
+	local predictedToggle = PredictedToggleMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	predictedToggle:SetUp(wrapTable);
 	return predictedToggle;
 end
@@ -1362,7 +1366,7 @@ function LayoutIndexManagerMixin:Reset()
 end
 
 function CreateLayoutIndexManager()
-	return CreateFromMixins(LayoutIndexManagerMixin);
+	return LayoutIndexManagerMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 end
 
 function CallMethodOnNearestAncestor(self, methodName, ...)

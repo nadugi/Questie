@@ -1,4 +1,5 @@
-MapCanvasMixin = CreateFromMixins(CallbackRegistryBaseMixin);
+---@class MapCanvasMixin : CallbackRegistryBaseMixin
+MapCanvasMixin = CallbackRegistryBaseMixin; -- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 
 function MapCanvasMixin:OnLoad()
 	CallbackRegistryBaseMixin.OnLoad(self);
@@ -10,7 +11,7 @@ function MapCanvasMixin:OnLoad()
 	self.activeAreaTriggers = {};
 	self.lockReasons = {};
 	self.pinsToNudge = {};
-	self.pinFrameLevelsManager = CreateFromMixins(MapCanvasPinFrameLevelsManagerMixin);
+	self.pinFrameLevelsManager = MapCanvasPinFrameLevelsManagerMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	self.pinFrameLevelsManager:Initialize();
 	self.mouseClickHandlers = {};
 

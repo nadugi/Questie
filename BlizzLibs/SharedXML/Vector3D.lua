@@ -88,10 +88,15 @@ function Vector3D_CreateNormalVectorFromYawPitch(yawRadians, pitchRadians)
 	return CreateVector3D(Vector3D_CalculateNormalFromYawPitch(yawRadians, pitchRadians));
 end
 
+---@class Vector3D
 Vector3DMixin = {};
 
+---@param x number
+---@param y number
+---@param z number
+---@return Vector3D
 function CreateVector3D(x, y, z)
-	local vector = CreateFromMixins(Vector3DMixin);
+	local vector = Vector3DMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	vector:OnLoad(x, y, z);
 	return vector;
 end

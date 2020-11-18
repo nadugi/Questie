@@ -34,13 +34,12 @@
 --		return object;
 --	end
 --
---	function CreateFromMixins(...)
---		return Mixin({}, ...)
+--	function ...)--- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...-		return Mixin({}, ...)
 --	end
 --end
 ----------------
 
-
+---@class ObjectPoolMixin
 ObjectPoolMixin = {};
 
 function ObjectPoolMixin:OnLoad(creationFunc, resetterFunc)
@@ -113,13 +112,15 @@ function ObjectPoolMixin:EnumerateInactive()
 	return ipairs(self.inactiveObjects);
 end
 
+---@return ObjectPoolMixin
 function CreateObjectPool(creationFunc, resetterFunc)
-	local objectPool = CreateFromMixins(ObjectPoolMixin);
+	local objectPool = ObjectPoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	objectPool:OnLoad(creationFunc, resetterFunc);
 	return objectPool;
 end
 
-FramePoolMixin = CreateFromMixins(ObjectPoolMixin);
+---@class FramePoolMixin : ObjectPoolMixin
+FramePoolMixin = ObjectPoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 
 local function FramePoolFactory(framePool)
 	return CreateFrame(framePool.frameType, nil, framePool.parent, framePool.frameTemplate);
@@ -145,13 +146,15 @@ function FramePool_HideAndClearAnchors(framePool, frame)
 	frame:ClearAllPoints();
 end
 
+---@return FramePoolMixin
 function CreateFramePool(frameType, parent, frameTemplate, resetterFunc)
-	local framePool = CreateFromMixins(FramePoolMixin);
+	local framePool = FramePoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	framePool:OnLoad(frameType, parent, frameTemplate, resetterFunc or FramePool_HideAndClearAnchors);
 	return framePool;
 end
 
-TexturePoolMixin = CreateFromMixins(ObjectPoolMixin);
+---@class TexturePoolMixin : ObjectPoolMixin
+TexturePoolMixin = ObjectPoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 
 local function TexturePoolFactory(texturePool)
 	return texturePool.parent:CreateTexture(nil, texturePool.layer, texturePool.textureTemplate, texturePool.subLayer);
@@ -168,13 +171,15 @@ end
 TexturePool_Hide = FramePool_Hide;
 TexturePool_HideAndClearAnchors = FramePool_HideAndClearAnchors;
 
+---@return TexturePoolMixin
 function CreateTexturePool(parent, layer, subLayer, textureTemplate, resetterFunc)
-	local texturePool = CreateFromMixins(TexturePoolMixin);
+	local texturePool = TexturePoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	texturePool:OnLoad(parent, layer, subLayer, textureTemplate, resetterFunc or TexturePool_HideAndClearAnchors);
 	return texturePool;
 end
 
-FontStringPoolMixin = CreateFromMixins(ObjectPoolMixin);
+---@class FontStringPoolMixin : ObjectPoolMixin
+FontStringPoolMixin = ObjectPoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 
 local function FontStringPoolFactory(fontStringPool)
 	return fontStringPool.parent:CreateFontString(nil, fontStringPool.layer, fontStringPool.fontStringTemplate, fontStringPool.subLayer);
@@ -191,13 +196,15 @@ end
 FontStringPool_Hide = FramePool_Hide;
 FontStringPool_HideAndClearAnchors = FramePool_HideAndClearAnchors;
 
+---@return FontStringPoolMixin
 function CreateFontStringPool(parent, layer, subLayer, fontStringTemplate, resetterFunc)
-	local fontStringPool = CreateFromMixins(FontStringPoolMixin);
+	local fontStringPool = FontStringPoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	fontStringPool:OnLoad(parent, layer, subLayer, fontStringTemplate, resetterFunc or FontStringPool_HideAndClearAnchors);
 	return fontStringPool;
 end
 
-ActorPoolMixin = CreateFromMixins(ObjectPoolMixin);
+---@class ActorPoolMixin : ObjectPoolMixin
+ActorPoolMixin = ObjectPoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 
 local function ActorPoolFactory(actorPool)
 	return actorPool.parent:CreateActor(nil, actorPool.actorTemplate);
@@ -215,8 +222,9 @@ function ActorPool_HideAndClearModel(actorPool, actor)
 	actor:Hide();
 end
 
+---@return ActorPoolMixin
 function CreateActorPool(parent, actorTemplate, resetterFunc)
-	local actorPool = CreateFromMixins(ActorPoolMixin);
+	local actorPool = ActorPoolMixin;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	actorPool:OnLoad(parent, actorTemplate, resetterFunc or ActorPool_HideAndClearModel);
 	return actorPool;
 end
@@ -224,7 +232,7 @@ end
 PoolCollection = {};
 
 function CreatePoolCollection()
-	local poolCollection = CreateFromMixins(PoolCollection);
+	local poolCollection = PoolCollection;-- removed CreateFromMixin(VAR), We do this for the type because mixin is strange...
 	poolCollection:OnLoad();
 	return poolCollection;
 end
